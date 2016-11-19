@@ -1,0 +1,103 @@
+
+<canvas id="myChart" width="500" height="500"></canvas>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.js"></script>
+
+<script>
+population = ["Clinton", "Clinton", "Trump", "Clinton", "Clinton", "Trump", 
+"Trump", "Clinton", "Trump", "Trump", "Trump", "Clinton", "Clinton", 
+"Trump", "Clinton", "Clinton", "Clinton", "Clinton", "Clinton", 
+"Clinton", "Clinton", "Clinton", "Trump", "Clinton", "Clinton", 
+"Clinton", "Clinton", "Clinton", "Clinton", "Clinton", "Clinton", 
+"Clinton", "Clinton", "Clinton", "Clinton", "Clinton", "Clinton", 
+"Clinton", "Clinton", "Clinton", "Clinton", "Clinton", "Clinton", 
+"Trump", "Clinton", "Clinton", "Clinton", "Trump", "Clinton", 
+"Clinton", "Clinton", "Clinton", "Clinton", "Clinton", "Clinton", 
+"Clinton", "Clinton", "Clinton", "Trump", "Clinton", "Clinton", 
+"Clinton", "Clinton", "Clinton", "Clinton", "Clinton", "Trump", 
+"Trump", "Clinton", "Trump", "Trump", "Clinton", "Trump", "Trump", 
+"Clinton", "Trump", "Clinton", "Clinton", "Clinton", "Trump", 
+"Clinton", "Clinton", "Clinton", "Trump", "Clinton", "Clinton", 
+"Clinton", "Clinton", "Trump", "Clinton", "Clinton", "Trump", 
+"Clinton", "Clinton", "Clinton", "Trump", "Clinton", "Clinton", 
+"Clinton", "Clinton", "Trump", "Trump", "Clinton", "Clinton", 
+"Clinton", "Trump", "Trump", "Trump", "Trump", "Trump", "Clinton", 
+"Trump", "Trump", "Trump", "Clinton", "Clinton", "Trump", "Clinton", 
+"Trump", "Trump", "Trump", "Trump", "Trump", "Trump", "Trump", 
+"Clinton", "Trump", "Clinton", "Trump", "Clinton", "Trump", "Clinton", 
+"Trump", "Clinton", "Clinton", "Clinton", "Clinton", "Trump", 
+"Clinton", "Clinton", "Trump", "Clinton", "Clinton", "Clinton", 
+"Trump", "Clinton", "Trump", "Trump", "Trump", "Trump", "Trump", 
+"Trump", "Trump", "Trump", "Trump", "Clinton", "Trump", "Clinton", 
+"Clinton", "Clinton", "Clinton", "Trump", "Clinton", "Trump", 
+"Clinton", "Trump", "Trump", "Clinton", "Trump", "Trump", "Trump", 
+"Clinton", "Trump", "Trump", "Trump", "Clinton", "Clinton", "Trump", 
+"Trump", "Clinton", "Clinton", "Clinton", "Trump", "Trump", "Trump", 
+"Clinton", "Trump", "Trump", "Trump", "Clinton", "Clinton", "Trump", 
+"Trump", "Trump", "Clinton", "Trump", "Clinton", "Trump", "Clinton", 
+"Clinton", "Trump", "Trump", "Trump", "Clinton", "Trump", "Trump", 
+"Clinton", "Trump", "Trump", "Trump", "Trump", "Trump", "Clinton", 
+"Trump", "Trump", "Trump", "Trump", "Trump", "Trump", "Trump", 
+"Trump", "Trump", "Clinton", "Trump", "Trump", "Trump", "Trump", 
+"Clinton", "Trump", "Trump", "Trump", "Clinton", "Trump", "Trump", 
+"Trump", "Trump", "Trump", "Trump", "Trump", "Trump", "Trump", 
+"Trump", "Trump", "Trump", "Trump", "Trump", "Trump", "Trump", 
+"Trump", "Trump", "Trump", "Trump", "Trump", "Trump", "Trump", 
+"Trump", "Trump", "Trump", "Clinton", "Trump", "Trump", "Trump", 
+"Trump", "Trump", "Trump", "Clinton", "Trump", "Trump", "Trump", 
+"Trump", "Trump", "Trump", "Trump", "Trump", "Trump", "Trump", 
+"Trump", "Trump", "Trump", "Trump", "Trump", "Trump", "Trump", 
+"Trump", "Clinton", "Trump", "Trump", "Clinton", "Trump", "Clinton", 
+"Trump", "Clinton", "Trump", "Clinton", "Trump", "Trump", "Trump", 
+"Trump", "Trump", "Trump"]
+
+//simulate what it's like to poll a random person
+//sample a random person from our population list
+//this is the same code you used to sample a tandom color from a list of colors
+var clintonCount = 0
+var trumpCount = 0 
+
+for (i = 0; i < 10; i++) {
+	var randPerson = population[Math.floor(Math.random()*population.length)]
+	if  (randPerson == "Clinton") {
+		clintonCount = clintonCount + 1
+	}
+	if (randPerson == "Trump") {
+		trumpCount = trumpCount + 1
+	}
+	document.write(randPerson)
+	document.write("<br>")
+}
+document.write("Clinton count: " + clintonCount)
+document.write("<br>")
+document.write("Trump count: " + trumpCount)
+if (trumpCount > clintonCount) {
+	document.write ("<br>")
+	document.write ("Trump wins!")
+}
+if (clintonCount > trumpCount) {
+	document.write ("<br>")
+	document.write ("Clinton wins!")
+}
+if(trumpCount == clintonCount) {
+	document.write ("<br>")
+	document.write ("<h1>It's a tie!</h1>")
+}
+
+var context = document.getElementById("myChart").getContext("2d")
+var myPieChart = new Chart(context, {
+	type: 'doughnut',
+	data: {
+		labels: [
+		"Clinton",
+		"Trump"
+		],
+		datasets: [
+			{
+				data: [clintonCount, trumpCount],
+				backgroundColor: ["blue", "red"]
+
+			} 
+		]
+	}
+});
+</script>
