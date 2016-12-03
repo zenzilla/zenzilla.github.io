@@ -1,0 +1,111 @@
+<html>
+
+<style>
+.cell {
+	width:20px;
+	height:20px;
+	background-color:red;
+	padding:1em;
+	float:left;
+	border:1px solid black;
+}
+</style>	
+
+
+<div id="buttons">
+<button id="play1" onclick="kick.play()">kick</button>
+<button id="play2" onclick="mow.play()">meow</button>
+<button id="play3" onclick="jump.play()">jump</button>
+<button id="play4" onclick="song()">play song</button>
+</div>
+
+
+<div id="tracks">
+</div>
+
+<script>
+	var colors = ["red", "orange", "yellow", "green", "blue", "purple", "pink", "maroon", "turquiose"]
+  var r = Math.floor(Math.random() * colors.length)
+  document.body.style["background-color"] = colors[r]
+
+var kick = new Audio()
+kick.src = "hard_kick3.wav"
+
+var mow = new Audio()
+mow.src = "mow.mp3"
+
+var jump = new Audio()
+jump.src = "jump2.wav"
+
+function song() {
+
+	for (var i = 0; i < 10; i++) {
+		//kick.play
+		setTimeout(function() {
+			kick.play()
+
+		} , 390 * i)
+
+		setTimeout(function() {
+			mow.play()
+
+		} , 300 * i)
+
+		setTimeout(function() {
+			jump.play()
+
+		} , 120 * i)
+	}
+}
+
+var tracks = document.getElementById("tracks")
+
+for (var i = 0; i < 20; i++) {
+
+	var child = document.createElement("div")
+	child.innerHTML = '<div class= "cell" id="cell' + i + '"></div>'
+
+	tracks.append(child)
+
+	var cell = document.getElementById("cell" + i)
+	cell.onclick = function() {
+		if (this.innerHTML == "X") {
+			this.innerHTML = ""
+		} else {
+			this.innerHTML = "X"
+		}
+	}
+
+}
+
+var current_cell = -1
+var previous_cell = 0
+
+function tick() {
+	current_cell = current_cell + 1
+
+	if (current_cell == 20) {
+		current_cell = 0
+	}
+
+	var cell = document.getElementById("cell" + current_cell)
+	cell.style.backgroundColor = "white"
+	var pcell = document.getElementById("cell" + previous_cell)
+	pcell.style.backgroundColor = "red"
+
+	previous_cell = current_cell
+
+	if (cell.innerText) {
+		mow.play()
+		mow.currentTime = 0
+	}
+
+	//previous_cell
+}
+
+setInterval(tick, 200)
+
+</script>
+
+
+</html>
