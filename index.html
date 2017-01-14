@@ -4,14 +4,13 @@
 
  <style>
   body{
-    background-image: url("http://i.imgur.com/OXeQjjo.gif");
     background-size: cover;
    background-repeat: no-repeat;
    font-family: 'ABeeZee', sans-serif;
      
   } 
   a {
-   font-size: 45px;
+   size: 60px;
   }
  </style> 
   
@@ -38,6 +37,8 @@
      var randback = Math.floor(Math.random() * background.length)
      var randImage = background[randback]
      document.body.style.backgroundImage = "url('" + randImage + "')";
+   document.body.style.backgroundRepeat = "none";
+   document.body.style.backgroundSize = "cover";
  
   </script>
   
