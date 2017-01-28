@@ -1,0 +1,153 @@
+<style>
+.ticket {
+	width: 800px;
+	height: 600px;
+	background: radial-gradient(yellow, #ea6100);
+	position: relative;
+}
+.scratch-container {
+	position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -33%);
+  background-color: white;
+  border-radius: 20px;
+  border: 3px solid #d08300;
+  font-size: 80;
+  text-align:center;
+  color: white;
+}
+.scratch {
+  display: inline-block;
+  width: 90px;
+  height: 90px;
+  background-color: #e6b947;
+  margin: 10px 20px;
+  border-radius: 10px;
+}
+h1 {
+  text-align: center;
+  letter-spacing: 19px;
+  font: bold 94px sans-serif;
+  margin-bottom: -27px;
+  color: white;
+  text-shadow: 0 1px 0 #ccc,
+               0 2px 0 #c9c9c9,
+               0 3px 0 #bbb,
+               0 4px 0 #b9b9b9,
+               0 5px 0 #aaa,
+               0 6px 1px rgba(0,0,0,.1),
+               0 0 5px rgba(0,0,0,.1),
+               0 1px 3px rgba(0,0,0,.3),
+               0 3px 5px rgba(0,0,0,.2),
+               0 5px 10px rgba(0,0,0,.25),
+               0 10px 10px rgba(0,0,0,.2),
+               0 20px 20px rgba(0,0,0,.15);
+}
+h2 {
+	text-align: center;
+	font: bold 50px sans-serif;
+	margin: 0px;
+	color: #ce6922;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+</style>
+
+<div class="ticket">
+	<h1>LOTTOMONEY</h1>
+	<h2>SCRATCH TO WIN!</h2>
+	<div class="scratch-container">
+		<div class="scratch" id="scratch1"></div><div class="scratch" id="scratch2"></div><div class="scratch" id="scratch3"></div>
+		<br>
+		<div class="scratch" id="scratch4"></div><div class="scratch" id="scratch5"></div><div class="scratch" id="scratch6"></div>
+		<br>
+		<div class="scratch" id="scratch7"></div><div class="scratch" id="scratch8"></div><div class="scratch" id="scratch9"></div>
+	</div>
+</div>
+<h2><div id="results"></div></h2>
+
+<script>
+// INSTRUCTIONS: 
+// You need to write the javascript code needed to make this work!
+
+// GOAL 1: Generate a random number from 1 to 5
+var numbers = [1, 2, 3, 4, 5]
+
+Math.floor(Math.random() * numbers.length) + 1
+
+
+// GOAL 2: Put this number into the scratch off ticket to display
+
+//for (i = 1; i <= 9; i++) {
+	//document.getElementById("scratch" + i).innerHTML = Math.floor(Math.random() * numbers.length) + 1
+//}
+
+
+
+// GOAL 3: Now write a loop to do this for all scratch positions from 1 to 9
+// HINT: document.getElementById("scratch"+i) gets the ith scratch box
+
+
+
+
+// GOAL 4: We need to keep track of all the random numbers we generate
+// to be able to tell if there's a winner. So make a dictionary
+// and use it to keep track of the random numbers generated
+// HINT: var numList = {};
+var numList = {}
+for (var i = 1; i <= 9; i++) {
+	randNum = Math.floor(Math.random()*100);
+	if (randNum in numList) {
+		numList[randNum] = numList[randNum] + 1
+	} else {
+		numList[randNum] = 1
+	}
+	document.getElementById("scratch"+i).innerHTML = randNum;
+}
+
+// GOAL 5: We will show "YOU WIN" if there are 3 matching numbers
+// and "YOU LOSE" if there are not 3 matching numbers
+// HINT: document.getElementById("results").innerHTML = "YOU WIN"
+
+for (var left in numList) {
+	console.log("LEFT IS " + left)
+	right = numList[left]
+	console.log("RIGHT IS " + right)
+	if (right == 3) {
+		document.getElementById("results").innerHTML = "YOU WIN"
+	}
+}
+
+////////////////////////////////////////////////////////// CHALLENGES:
+// CHALLENGE 1:
+// Now let's put it in a function called lotto()
+// Make a button that will call the function every time it is clicked
+
+
+
+
+// CHALLENGE 2:
+// Play 10 times, how many times did you win?
+// You can actually find the answer with math using combinatorics
+// Or you can run a 'simulation' a million times and get the same answer
+// Write a simulation to see how many times you win
+
+
+
+
+// CHALLENGE 3:
+// Imagine you are a state official running the lottery
+// You've designed a lottery that will produce 1 winner every 100 games
+// The winner always wins $100 
+// How much should you sell the lottery ticket for to ensure the state does
+// not go bankrupt (lose money) but also not scam people
+
+
+
+// CHALLENGE 4:
+// Make this more like a real scratch off.
+// Only display the numbers in the scratch boxes when clicked.
+// Why not change numbers to pictures? Won't that be swell?
+
+
+</script>
