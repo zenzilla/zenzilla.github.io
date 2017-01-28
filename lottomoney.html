@@ -53,6 +53,9 @@ h2 {
 }
 </style>
 
+<button id="newTicket" onclick="playLotto()">New Lotto Money ticket</button>
+
+
 <div class="ticket">
 	<h1>LOTTOMONEY</h1>
 	<h2>SCRATCH TO WIN!</h2>
@@ -67,6 +70,8 @@ h2 {
 <h2><div id="results"></div></h2>
 
 <script>
+
+function playLotto() {
 // INSTRUCTIONS: 
 // You need to write the javascript code needed to make this work!
 
@@ -109,22 +114,33 @@ for (var i = 1; i <= 9; i++) {
 // and "YOU LOSE" if there are not 3 matching numbers
 // HINT: document.getElementById("results").innerHTML = "YOU WIN"
 
+var youwon = false
 for (var left in numList) {
-	console.log("LEFT IS " + left)
+	//console.log("LEFT IS " + left)
 	right = numList[left]
-	console.log("RIGHT IS " + right)
+	//console.log("RIGHT IS " + right)
 	if (right == 3) {
+		youwon = true
 		document.getElementById("results").innerHTML = "YOU WIN"
 	}
 }
+ if (youwon == false) {
+ 	document.getElementById("results").innerHTML = "YOU LOSE, 😋"
+	
+ }
 
+return youwon
+}
 ////////////////////////////////////////////////////////// CHALLENGES:
 // CHALLENGE 1:
 // Now let's put it in a function called lotto()
 // Make a button that will call the function every time it is clicked
 
-
-
+var wins = {false: 0, true: 0}
+for (var i = 1; i <= 10000; i++) {
+	var youwon = playLotto()
+	wins[youwon] = wins[youwon] + 1
+}
 
 // CHALLENGE 2:
 // Play 10 times, how many times did you win?
