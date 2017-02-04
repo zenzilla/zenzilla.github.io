@@ -1,0 +1,82 @@
+<html>
+
+
+<style>
+@keyframes myrotate{
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes mymove {
+	from{
+		transform: translate(0px, 0px) rotate(0deg);
+	}
+	to{
+		transform: translate(0px, 100px) rotate (360deg);
+	}
+
+}
+.hi {
+	background-color: ;
+	width: 200px;
+	height: 100px;
+	animation: myrotate 1s infinite;	
+}
+</style>
+
+<body>
+
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css">
+</head>
+
+<center>
+	<img class="animated infinite bounce" src="https://ih0.redbubble.net/image.198393226.0237/ap,550x550,12x12,1,transparent,t.u1.png" width="10%">
+	<div class="trump2">
+	Bouncy Trump
+
+</center>
+
+	<div class="hi">
+<br>
+Spinny Trump
+</br>
+<img src="https://ih0.redbubble.net/image.198393226.0237/ap,550x550,12x12,1,transparent,t.u1.png" width="30%">
+</div>
+
+</body>
+
+
+<script>
+var colors = ["red", "darkred", "orange", "darkorange", "yellow", 
+"lightyellow", "green", "lightgreen", "darkgreen", "blue", "darkblue", "lightblue", "purple", "pink", "maroon", "turquiose", "brown", "magenta"]
+var r = Math.floor(Math.random() * colors.length)
+document.body.style["background-color"] = colors[r]
+
+</script>
+
+<center>
+
+<div id="button1">
+<button id="play1" onclick="Do_You_Wanna_Build_A_Wall.play()"> Do You Wanna Build A Wall </button>
+
+</center>
+
+<div id="button2">
+<button id="play2" onclick="Donald_trump_sings_pokemon_go_song.play()"> Donald Trump sing Pokemon Go! </button>
+
+<script>
+
+var Do_You_Wanna_Build_A_Wall = new Audio()
+Do_You_Wanna_Build_A_Wall.src = "Do You Wanna Build A Wall - Donald Trump (Frozen Parody).mp3"
+
+var Donald_trump_sings_pokemon_go_song = new Audio()
+Donald_trump_sings_pokemon_go_song.src = "Donald trump sings pokemon go song(OFFICIAL).mp3"
+
+</script>
+
+</html>
