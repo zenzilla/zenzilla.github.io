@@ -1,0 +1,12 @@
+<html>
+<div id="button2">
+<button id="play2" onclick="Donald_trump_sings_pokemon_go_song.play()"> Donald Trump sing Pokemon Go! </button>
+	</div>
+<script>
+var Do_You_Wanna_Build_A_Wall = new Audio()
+Do_You_Wanna_Build_A_Wall.src = "Do You Wanna Build A Wall - Donald Trump (Frozen Parody).mp3"
+var Donald_trump_sings_pokemon_go_song = new Audio()
+Donald_trump_sings_pokemon_go_song.src = "Donald trump sings pokemon go song(Official).mp3"
+</script>
+
+</html>
