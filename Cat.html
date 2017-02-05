@@ -31,10 +31,7 @@
     background-color: red;
 }
 </style>
-<div id="button1">
-<button id="play1" onclick="Undertale - Tem Shop (Ben Briggs Glitch Hop Remix!) - GameChops.play()"> Tem shop remix! </button>
-<div class="pickbox" ondrop="drop(event)" ondragover="allowDrop(event)">
-    </div>
+    <div>
     <p class="pickobj" 
         ondragstart="dragStart(event)" 
         draggable="true" 
@@ -185,8 +182,8 @@
         Ojos azules kitten
 </div>
 <script>
-    var Undertale_Tem_Shop = new Audio()
-Undertale_Tem_Shop.src = "Undertale - Tem Shop (Ben Briggs Glitch Hop Remix!) - GameChops.mp3"
+    var audio = new Audio('Undertale - Tem Shop (Ben Briggs Glitch Hop Remix!) - GameChops.mp3');
+audio.play();
     </script>
 
 <script>
