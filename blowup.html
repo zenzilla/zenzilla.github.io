@@ -59,14 +59,14 @@ Pokeball.prototype.checkHits = function(p) {
  
 		}
 	}
-// I want to be able to do sparky.draw()
-// to draw sparky
+
 Pokemon.prototype.draw = function() {
 	if(this.captured == false) {
 		ctx.drawImage(this.img, this.x, this.y)
 	}
 }
-// I want to be able to say sparky.move() to move sparky to a new location
+var audio = new Audio('POKEMON GO SONG!!! by MISHA (FOR KIDS) [ORIGINAL]');
+audio.play();
 Pokemon.prototype.move = function() {
 	var curx = this.x
 	var cury = this.y
