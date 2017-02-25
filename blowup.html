@@ -15,6 +15,9 @@
 
 <script>
 
+var audio = new Audio('POKEMON GO SONG!!! by MISHA (FOR KIDS) [ORIGINAL]');
+audio.play();
+	
 var background = ['https://img.clipartfox.com/7d39e5082f6163bce3ab7184e730853b_view-full-size-road-clipart-png_5000-3545.png']
 document.body.style.backgroundSize = "cover";
 
@@ -65,8 +68,6 @@ Pokemon.prototype.draw = function() {
 		ctx.drawImage(this.img, this.x, this.y)
 	}
 }
-var audio = new Audio('POKEMON GO SONG!!! by MISHA (FOR KIDS) [ORIGINAL]');
-audio.play();
 Pokemon.prototype.move = function() {
 	var curx = this.x
 	var cury = this.y
