@@ -1,3 +1,4 @@
+
 <html>
 
 <style>
@@ -14,6 +15,9 @@
 <canvas id="canvas" width="1430" height="810" style="border: 1px solid black"></canvas>
 
 <script>
+
+var background = ['https://img.clipartfox.com/7d39e5082f6163bce3ab7184e730853b_view-full-size-road-clipart-png_5000-3545.png']
+document.body.style.backgroundSize = "cover";
 
 function Pokemon(image, x, y, growl) {
 	this.img = new Image()
@@ -86,7 +90,7 @@ Pokemon.prototype.move = function() {
 }
  var masterball = new Pokeball(10, 10)
 
-// Now we need to create a Pokeball where the mouse is∑
+// Now we need to create a Pokeball where the mouse isâˆ‘
 var targetX = 0, targetY = 0
 function moveTarget(e) {
   e = e || window.event;
