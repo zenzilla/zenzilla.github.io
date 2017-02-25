@@ -15,9 +15,6 @@
 
 <script>
 
-var audio = new Audio('POKEMON GO SONG!!! by MISHA (FOR KIDS) [ORIGINAL]');
-audio.play();
-	
 var background = ['https://img.clipartfox.com/7d39e5082f6163bce3ab7184e730853b_view-full-size-road-clipart-png_5000-3545.png']
 document.body.style.backgroundSize = "cover";
 
@@ -62,12 +59,14 @@ Pokeball.prototype.checkHits = function(p) {
  
 		}
 	}
-
+// I want to be able to do sparky.draw()
+// to draw sparky
 Pokemon.prototype.draw = function() {
 	if(this.captured == false) {
 		ctx.drawImage(this.img, this.x, this.y)
 	}
 }
+// I want to be able to say sparky.move() to move sparky to a new location
 Pokemon.prototype.move = function() {
 	var curx = this.x
 	var cury = this.y
