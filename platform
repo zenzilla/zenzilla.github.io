@@ -1,0 +1,338 @@
+<!doctype html>
+<html>
+<head>
+    <title>Cube jumper!</title>
+</head>
+<body>
+ <canvas id="canvas" style="border:1px solid #000" ></canvas>
+ 
+<script>
+(function() {
+    var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+    window.requestAnimationFrame = requestAnimationFrame;
+})();
+ 
+var canvas = document.getElementById("canvas"),
+    ctx = canvas.getContext("2d"),
+    width = 500,
+    height = 300,
+    player = {
+      // where the player is
+      x : width/2,
+      y : height - 5,
+      // where the player was
+      oldx : width / 2,
+      oldy : height - 5,
+      // how big the player is
+      width : 10,
+      height : 10,
+      // how fast he moves
+      speed: 3,
+      // velocity
+      velX: 0,
+      velY: 0,
+      // if he's jumping or not
+      jumping: false
+    },
+    keys = [],
+    friction = 0.8,
+    gravity = 0.2;
+ 
+var square = new Image()
+square.src = "Square.png"
+
+var coin_sound = new Audio()
+coin_sound.src = "coin.wav"
+
+// 
+function variance (arr){
+	var s = 0
+	for (var i = 0; i < arr.length; i++) {
+		s += arr[i]
+	}
+	var mean = s/arr.length
+	for (var i = 0; i < arr.length; i++) {
+		arr[i] = (arr[i] - mean) * (arr[i] - mean) 
+	}
+	newSum = 0
+	for (var i = 0; i < arr.length; i++) {
+		newSum+=arr[i]
+	}
+
+	return newSum/arr.length
+
+}
+
+var num_platforms = 30
+
+var platforms = []
+//for (var i = platforms.length - 1; i >= 0; i--) {
+for (var i = 0; i < num_platforms; i++) {
+	var x = Math.floor(Math.random()* 500)
+	var y = Math.floor(Math.random()* 300)
+
+	if(i == 0) {
+		y = 250
+	}
+
+	// if statement to check if the new y compared to the platforms
+	// we already have, have very high variance
+	// if the variance is higher than some threshold
+	// then we will generate a new y
+	if(i >= 1) {
+		var lastPlatformY = platforms[i-1].y
+		var myVar = variance([lastPlatformY, y])
+		while(myVar > 10000){
+			var y = Math.floor(Math.random()* 300)
+			var lastPlatformY = platforms[i-1].y
+			var myVar = variance([lastPlatformY, y])
+		}
+	}
+
+	platforms.push({
+		x : x,
+  		y : y,
+  		width : Math.floor(Math.random()* 100),
+  		height : 5
+	})
+}
+
+
+var coins = [];
+var n_coins = 10;
+
+for (var i = 0; i < n_coins ; i++) {
+	coins.push({
+	  x : Math.floor(Math.random()* 500),
+	  y : Math.floor(Math.random()* 300),	
+	  width : 10,
+	  height : 10,
+	  alive: true
+	})
+}
+canvas.width = width;
+canvas.height = height;
+ 
+function collision(a,b){
+	//var a = {x: o, y: 1, width: 10, height: 10 }
+	if (a.x < b.x + b.width &&
+			a.x + a.width > b.x &&
+			a.y < b.y + b.height &&
+			a.height + a.y > b.y) {
+
+		return true
+	}
+	return false
+}
+
+function which_min(xs) {
+	//           0   1   2  3
+	//var xs = [13, 17,  3, 7];
+	// what is the index of the smallest number?
+	var index = 0;
+	for (var i = 0; i < xs.length; i++) {
+		if (xs[i] < xs[index]) {
+			index = i;
+		}
+	}
+	return index;
+}
+
+function collision2(a,b){
+	// var a = {x: 5, y: 10, width: 10, height: 10 }
+	// var b = {x: 12, y: 7, width: 10, height: 10 }
+
+	var x1 = b.x - (a.x + a.width);
+	var x2 = a.x - (b.x + b.width);
+	var y1 = b.y - (a.y + a.height);
+	var y2 = a.y - (b.y + b.height);
+
+	// console.log( ' x1: ' + x1 + ' x2: ' + x2 + ' y1: ' + y1 + ' y2: ' + y2)
+
+	var colliding = (x1 <= 0 && x2 <= 0 && y1 <= 0 && y2 <= 0);
+
+	var distances = [Math.abs(x1), Math.abs(x2), Math.abs(y1), Math.abs(y2)]
+
+	var smallest = which_min(distances);
+
+	return {
+		collision: colliding,
+		situation: smallest,
+		distance: distances[smallest]
+	};
+}
+
+function update(){
+  // check keys
+    if (keys[38] || keys[32]) {
+		// up arrow or space
+		if (!player.jumping) {
+			player.jumping = true;
+			// - 3 * 2
+			player.velY = -player.speed * 2;
+		}
+    }
+    if (keys[39]) {
+        // right arrow
+        if (player.velX < player.speed) {             
+            player.velX++;         
+         }     
+    }     
+    if (keys[37]) {         
+        // left arrow         
+        if (player.velX > -player.speed) {
+            player.velX--;
+        }
+    }
+ 
+    // how hard it is to move. Closer to 0 is harder to move
+    player.velX *= friction;
+ 
+    if (player.jumping) {
+      player.velY += gravity;  
+    }
+ 
+    player.oldx = player.x;
+    player.oldy = player.y;
+    
+    player.x += player.velX;
+    player.y += player.velY;
+ 
+ // prevents moving out from the sides
+   if (player.x >= width - player.width) {
+        player.x = width - player.width;
+    } else if (player.x <= 0) {         
+        player.x = 0;     
+    }    
+  
+    // prevents him from falling down.
+    if (player.y >= height - player.height){
+        player.y = height - player.height;
+        player.jumping = false;
+    }
+ 
+ 	for (var i = 0; i < platforms.length; i++) {
+    	var c = collision2(player, platforms[i])
+    	//console.log(c)
+    	if (c.collision) {
+    		if (c.situation == 0) {
+    			player.x -= c.distance
+    		} else if (c.situation == 1) { 
+    			player.x += c.distance
+    		} else if (c.situation == 2) {
+    			player.y -= c.distance
+    			player.jumping = false
+    		} else if (c.situation == 3) {
+    			player.y += c.distance
+    		}
+    	}
+    }
+
+    //console.log(" velY = " + player.velY)
+    /*
+    // THIS IS THE OLD CODE
+    for (var i = 0; i < platforms.length; i++) {
+    	if (
+	      player.oldy > platforms[i].y &&
+	      player.velY <= 0 && // he is moving up
+	      player.y < platforms[i].y + platforms[i].height &&
+	      player.x < platforms[i].x + platforms[i].width &&
+	      player.x > platforms[i].x
+	    ) {
+	        player.y = platforms[i].y + platforms[i].height;
+	        //player.jumping = false;
+	    }
+	    // sit on top of platforms
+	    if (
+	      player.oldy <= platforms[i].y - player.height &&
+	      player.velY > 0 && // he is moving down
+	      player.y >= platforms[i].y - player.height &&
+	      player.x < platforms[i].x + platforms[i].width &&
+	      player.x > platforms[i].x
+	    ) {
+	        player.y = platforms[i].y - player.height;
+	        player.jumping = false;
+	    }
+    }
+    */
+
+    
+    // bump head into platforms
+
+  // This clears the canvas.
+  //ctx.clearRect(0,0,width,height);
+
+	var background = new Image();
+	background.src = "Gettyimgs.jpg";
+	background.onload = function() {
+	    ctx.drawImage(background,0,0,500,300);   
+	}
+
+	var alive_coins = 0;
+
+	for (var i = 0; i < coins.length; i++) {
+    	var c = collision2(player, coins[i])
+    	//console.log(c)
+    	if (c.collision) {
+    		if (coins[i].alive == true) {
+    			coin_sound.play()
+    			coin_sound.currentTime = 0
+    		}
+    		coins[i].alive = false;
+    	}
+    	if (coins[i].alive == true) {
+    		++alive_coins
+			ctx.fillStyle = "#f2d00e";
+		 	ctx.fillRect(coins[i].x, coins[i].y, coins[i].width, coins[i].height);
+		}
+    }
+
+    if (alive_coins == 0){
+    	window.location.href = "game.html"
+    }
+
+
+/*
+ 	for (var i = coins.length - 1; i >= 0; i--) {
+	  	if (
+	      player.oldy <= coins[i].y - player.height &&
+	      player.velY > 0 && // he is moving down
+	      player.y >= coins[i].y - player.height &&
+	      player.x < coins[i].x + coins[i].width &&
+	      player.x > coins[i].x
+	    ) {
+	        coins[i].alive = false;
+	    }
+		if (coins[i].alive == true) {
+			ctx.fillStyle = "#f2d00e";
+		  ctx.fillRect(coins[i].x, coins[i].y, coins[i].width, coins[i].height);
+		}
+	}
+	*/
+
+	for (var i = platforms.length - 1; i >= 0; i--) {
+		ctx.fillStyle = "black";
+		ctx.fillRect(platforms[i].x, platforms[i].y, platforms[i].width, platforms[i].height);
+	}
+
+	ctx.drawImage(square, player.x, player.y, player.width, player.height) 
+
+	requestAnimationFrame(update);
+}
+ 
+document.body.addEventListener("keydown", function(e) {
+    keys[e.keyCode] = true;
+});
+ 
+document.body.addEventListener("keyup", function(e) {
+    keys[e.keyCode] = false;
+});
+ 
+window.addEventListener("load",function(){
+    update();
+});
+
+
+</script>
+</body>
+</html>
