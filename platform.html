@@ -1,3 +1,4 @@
+<!doctype html>
 <html>
 <head>
     <title>Cube jumper!</title>
@@ -260,9 +261,13 @@ function update(){
 
   // This clears the canvas.
   //ctx.clearRect(0,0,width,height);
+  var back = ["Gettyimages.jpg", "Coolback1.jpg", "coolbackround2.html", "Coolback3.jpg", "Coolback4.jpg", "Coolback5.jpg", "Coolback6.jpg", "Coolback7.jpeg", "Coolback8.gif", "Coolback9.gif", "Coolback10.gif"]
+ var r = Math.floor(Math.random() * colors.length)
+ var randback = back[r]
+
 
 	var background = new Image();
-	background.src = "Gettyimgs.jpg";
+	background.src = randback;
 	background.onload = function() {
 	    ctx.drawImage(background,0,0,500,300);   
 	}
