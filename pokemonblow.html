@@ -1,0 +1,162 @@
+<html>
+
+<style>
+  body{
+    background-size: cover;
+   background-repeat: no-repeat;
+   font-family: 'ABeeZee', sans-serif;
+     
+  } 
+  a {
+   size: 75px;
+  }
+ </style> 
+<canvas id="canvas" width="1430" height="810" style="border: 1px solid black"></canvas>
+
+<script>
+
+a = {x: 0, y: 0}
+b = {x: 3, y: 4}
+	function distance(a, b) {
+		return Math.sqrt(
+			Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2)
+			)
+	}
+
+function Pokemon(image, x, y, growl) {
+	this.img = new Image()
+	this.img.src = image
+	this.x = x
+	this.y = y
+	this.growl = growl
+	this.captured = false
+	this.currentdirectionx = 1
+	this.currentdirectiony = 1
+}
+function bush(image) {
+	this.img = new Image()
+	this.img.src = image
+	this.x = 100
+	this.y = 100
+}
+bush.prototype.draw = function(){
+	ctx.drawImage(this.img, this.x, this.y, 300, 300)	
+}
+
+function Pokeball(x,y) {
+	this.img = new Image(100, 100)
+	this.img.src = 'bomb.png'
+	this.x = x
+	this.y = y
+
+}
+
+Pokeball.prototype.draw = function(x, y) {
+	ctx.drawImage(this.img, x, y, 50, 50)	
+}
+
+Pokeball.prototype.checkHits = function(p) {
+	if (this.x < p.x + 73 &&
+		this.x + 73 > p.x &&
+		this.y < p.y + 100 &&
+		100 + this.y > p.y) {
+		p.img.src = 'explo.png'
+ 
+		}
+	}
+
+	function backround (x,y) {
+		
+	}
+
+// I want to be able to do sparky.draw()
+// to draw sparky
+Pokemon.prototype.draw = function() {
+	if(this.captured == false) {
+		ctx.drawImage(this.img, this.x, this.y)
+	}
+}
+Pokemon.prototype.move = function() {
+	var curx = this.x
+	var cury = this.y
+	
+	
+	var d = distance(this, masterball)
+	//console.log(d)
+
+	var ux = (curx - targetX)/ d * 5
+	var uy = (cury - targetY)/ d * 5
+
+	//var newx = curx + Math.cos(360 * this.currentdirectionx) * 5 
+	//var newy = cury + Math.cos(360 * this.currentdirectiony) * 5
+	var newx = curx + ux
+    var newy = cury + uy
+
+	this.x = newx
+	this.y = newy
+
+	if(Math.random() > 0.95) {
+		this.currentdirectionx = Math.random()
+	}
+	if(Math.random() > 0.95) {
+		this.currentdirectiony = Math.random()
+	}
+	if (this.x > 550 | this.x < 50) {
+		this.x = 100
+	}
+	if (this.y > 550 | this.y < 50) {
+		this.y = 100
+	}
+}
+
+
+
+ var masterball = new Pokeball(10, 10)
+
+// Now we need to create a Pokeball where the mouse is∑
+var targetX = 0, targetY = 0
+function moveTarget(e) {
+  e = e || window.event;
+  targetX = e.pageX;
+  targetY = e.pageY;
+}
+
+
+var canvas = document.getElementById('canvas')
+var ctx = canvas.getContext('2d')
+var john = new Pokemon('Pikachu.png', 100, 100, 'Jooohnnn')
+var mybush = new bush('Am-Bush.png')
+
+
+
+function draw() {
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    john.move()
+    john.draw()
+    mybush.draw()
+    masterball.draw(targetX, targetY)
+
+    // record mouse move
+    canvas.onmousemove = moveTarget
+    //console.log(targetX)
+    //console.log(targetY)
+}
+document.addEventListener("click", function(){
+masterball.checkHits(john)
+if (masterball.checkHits == john) {
+window.alert('Game Over!')
+}
+});
+setInterval(draw, 10)
+
+
+
+</script> 
+
+</html>
+
+
+
+
+
