@@ -265,15 +265,6 @@ function update(){
  var r = Math.floor(Math.random() * back.length)
  var randback = back[r]
 
-
-	var background = new Image();
-	background.src = randback;
-	background.onload = function() {
-	    ctx.drawImage(background,0,0,500,300);   
-	}
-
-	var alive_coins = 0;
-
 	for (var i = 0; i < coins.length; i++) {
     	var c = collision2(player, coins[i])
     	//console.log(c)
