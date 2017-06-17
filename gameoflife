@@ -1,0 +1,125 @@
+<html>
+
+<style>
+canvas {
+  image-rendering: optimizeSpeed;             /* Older versions of FF          */
+  image-rendering: -moz-crisp-edges;          /* FF 6.0+                       */
+  image-rendering: -webkit-optimize-contrast; /* Safari                        */
+  image-rendering: -o-crisp-edges;            /* OS X & Windows Opera (12.02+) */
+  image-rendering: pixelated;                 /* Awesome future-browsers       */
+  -ms-interpolation-mode: nearest-neighbor;   /* IE                            */
+}
+#mycanvas {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 600px;
+  height: 600px;
+  margin: -300px 0 0 -300px;
+  border: 1px solid;
+}
+.center {
+  margin: auto;
+  max-width: 600px;
+  padding: 1rem;
+}
+</style>
+
+<body>
+<canvas id="mycanvas" width="100" height="100"></canvas>
+
+<script>
+
+var canvas = document.getElementById('mycanvas');
+var ctx = canvas.getContext('2d');
+
+function init_grid() {
+    var grid = []
+    for (var i = 0; i < 100; i++) {
+    	grid.push([])
+    	for (var j = 0; j < 100; j++) {
+    		grid[i].push([0,1][Math.floor(Math.random()*2)])
+    	}
+    }
+    // Goal 1: make your own 10x10 matrix of 0s and 1s
+    // Let's say 0 represents dead (empty), 1 represents alive (occupied)
+    // Recall, a matrix is just an array of arrays
+    // You can make an array using []
+    
+    return grid;
+}
+
+function zero_grid() {
+    var grid = []
+    for (var i = 0; i < 100; i++) {
+    	grid.push([])
+    	for (var j = 0; j < 100; j++) {
+    		grid[i].push(0)
+    	}
+    }
+    return grid;
+}
+
+
+function update_grid(grid) {
+    var live_neighbors = 0;
+    var new_grid = zero_grid();
+
+	for (var i = 1; i < grid.length - 1; i++) {
+        for (var j = 1; j < grid[i].length - 1; j++) {
+
+        	live_neighbors = 0
+			live_neighbors += grid[i - 1][j] // left
+        	live_neighbors += grid[i + 1][j] // right
+        	live_neighbors += grid[i    ][j + 1] //down
+        	live_neighbors += grid[i    ][j - 1] // up
+        	live_neighbors += grid[i - 1][j - 1] // upleft
+        	live_neighbors += grid[i + 1][j - 1] // upright
+        	live_neighbors += grid[i - 1][j + 1] // downleft
+        	live_neighbors += grid[i + 1][j + 1] // downright
+
+        	// is the cell alive?
+            if (grid[i][j]) {
+            	if (live_neighbors == 2 || live_neighbors == 3) {
+            		// continue living
+            		new_grid[i][j] = 1
+            	} else {
+            		new_grid[i][j] = 0
+            	}
+            }
+            // is the cell dead? 
+            else {
+            	if (live_neighbors == 3) {
+            		new_grid[i][j] = 1
+            	}
+            }
+        }
+    }
+
+    return new_grid;
+}
+
+function draw_grid(grid) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (var i = 0; i < grid.length; i++) {
+        for (var j = 0; j < grid[i].length; j++) {
+            if (grid[i][j]) {
+                ctx.fillRect(i, j, 1, 1);
+            }
+        }
+    }
+}
+
+var g = init_grid();
+function step() {
+    draw_grid(g);
+    // pick random color
+    
+    // Uncomment this when your update_grid function is complete
+    g = update_grid(g);
+}
+setInterval(step, 100);
+
+</script>
+</body>
+</html>
