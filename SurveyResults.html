@@ -1,3 +1,20 @@
 <html>
 <h1> I now have your info >:) </h1>
-</html
+  
+  <script type="text/javascript">
+    function getParam( name )
+{
+ name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+ var regexS = "[\\?&]"+name+"=([^&#]*)";
+ var regex = new RegExp( regexS );
+ var results = regex.exec( window.location.href );
+ if( results == null )
+  return "";
+else
+ return results[1];
+}
+
+var firstname = getParam( 'firstname' );
+    document.querySelector('h1')[0].textContent += firstname;
+  </script>
+</html>
